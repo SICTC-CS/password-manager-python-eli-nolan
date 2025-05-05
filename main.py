@@ -23,10 +23,11 @@ create a class to check this
 
 
 '''
-
-import Modules.CheckPassReq as Check
 import Modules.Login as Login
 
 login=Login.Run()
 
-print(login.start("Test"))
+#TODO: Change True to output of login
+if True:
+    pass
+        #TODO: Add a way to delete accounts and categories and modify account info, if modifying password reuse register password make function :)

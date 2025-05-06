@@ -19,3 +19,4 @@ class Check():
             if char not in self.allowedChars:
                 return False,f"Password cannot contain '{char}'"
         return True,"Password accepted"
+#DONE

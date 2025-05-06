@@ -2,6 +2,8 @@ import random as rand
 
 class Generate:
     def __init__(self):
+        print("Generating...")
+    def Gen(self):
         passw=[]
         cap=False
         spec=False
@@ -30,4 +32,4 @@ class Generate:
         return "".join(passw)
                 
                     
-    #TODO: Make it actually return a generated password
+    #DONE!

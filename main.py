@@ -24,10 +24,28 @@ create a class to check this
 
 '''
 import Modules.Login as Login
-
+import Modules.Register as Register
 login=Login.Run()
 
-#TODO: Change True to output of login
-if True:
-    pass
-        #TODO: Add a way to delete accounts and categories and modify account info, if modifying password reuse register password make function :)
+print("User: Test")
+print("Password: Password123!@")
+#Login should output (True or False)
+#If
+
+#Login[1] is the account username
+if login.Login()[0]:
+    match input("Would you like to add(1),delete(2),or modify(3) an account? or exit (0)"):
+        case 0:
+            exit()
+        case 1:
+            print("Creating account...")
+            register = Register.Registration(True).makePassword(input("Enter password for new account: "))
+        case 2:
+            print("Deleting account...")
+        case 3:
+            print("Modifying account...")
+
+        #TODO: Add a way to add/delete accounts and categories and modify account info, 
+        #if modifying password reuse register password make function :)
+else:
+    exit() 

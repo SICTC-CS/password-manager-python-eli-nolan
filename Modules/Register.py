@@ -7,11 +7,10 @@ class Registration():
     def __init__(self,LoggedIn):
         self.LoggedIn = LoggedIn
         #Get username
+        self.userName = input("Enter your username: ")
         if LoggedIn:
             self.account = input("Enter the account name: ")
             self.category = input("Enter the category you want to put this in: ")
-        else:
-            self.userName = input("Enter your username: ")
         #Get password
         print("\nPassword must contain:\n\tAtleast 1 special character\n\tAtleast 1 number\n\tAtleast 8 characters\n")
         self.password = input("Enter a master password Or enter 'n' to generate a master password: ")
@@ -27,7 +26,7 @@ class Registration():
             if self.hint != None:
                 self.store()
     def makePassword(self,InitialPassword):
-        if InitialPassword != "n":
+        if InitialPassword.lower() != "n":
             password = InitialPassword
             #Verification of password and allowing reinput
             while not self.verify(password)[0]:
@@ -41,13 +40,13 @@ class Registration():
             if self.verify(password)[0]:
                 if not self.LoggedIn:
                     self.password = self.encrypt(password)
-                else:
-                    self.password = self.encode(password)
                 # print(f"Encrypted password: {self.password}") #for DEBUG
             #Create hint
             if self.LoggedIn == False:
                 self.hint = input("Enter a hint for if you forget your master password: ")
                 print(f"Hint: '{self.hint}'")
+            else:
+                self.hint=""
         else:
             Generator = Modules.GeneratePass.Generate()
             password = Generator.Gen()
@@ -68,12 +67,18 @@ class Registration():
     def store(self):
         path = f"Modules/DataStorage"
         if self.LoggedIn:
-            self.category = input("What category would you like to store this in? ")
-            
+            action=int(input("Please type 1 to delete, 2 to create account: "))
+            if action==1:
+                os.removedirs(f"{path}/{self.userName}/accounts/{self.category}/{self.account}")
+            elif action==2:
             #TODO: Add a way to store DataStorage/{self.username}/Accounts/{self.category}/{self.account}/Password.txt Contains plain text password :)
             #TODO: Add a way to store DataStorage/{self.username}/Accounts/{self.category}/{self.account}/Hint.txt  (Contains Password hint in file)
-            
-            return True
+                os.makedirs(f"{path}/{self.userName}/accounts/{self.category}/{self.account}",exist_ok=True) #Create the path down to /user 
+                accountPath = f"{path}/{self.userName}/accounts/{self.category}/{self.account}" 
+                
+                with open (f"{accountPath}/Password.txt", "w+") as f: #make password.txt
+                    f.write(self.password)
+                return True
         else:
             os.makedirs(f"{path}/{self.userName}/User",exist_ok=True) #Create the path down to /user 
             accountPath = f"{path}/{self.userName}/User" 

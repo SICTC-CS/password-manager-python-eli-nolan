@@ -34,14 +34,15 @@ print("Password: Password123!@")
 
 #Login[1] is the account username
 if login.Login()[0]:
-    match input("Would you like to add(1),delete(2),or modify(3) an account? or exit (0)"):
+    match int(input("Would you like to add(1),delete(2),or modify(3) an account? or exit (0)")):
         case 0:
             exit()
         case 1:
             print("Creating account...")
-            register = Register.Registration(True).makePassword(input("Enter password for new account: "))
+            register=Register.Registration(True)
         case 2:
             print("Deleting account...")
+            register=Register.Registration(True)
         case 3:
             print("Modifying account...")
 

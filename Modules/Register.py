@@ -63,14 +63,14 @@ class Registration():
     
     def encrypt(self,password):
         print(hashlib.sha256(password.encode('utf-8')).hexdigest()) #DEBUG
-        return hashlib.sha256(password.encode('utf-8')).hexdigest() #This encrypts the password as a byte and sets it to 32 in length from what i understand 
+        return hashlib.sha256(password.encode('utf-8')).hexdigest() #This encrypts the password using sha 256
 
     def store(self):
         path = f"Modules/DataStorage"
         if self.LoggedIn:
             self.category = input("What category would you like to store this in? ")
             
-            #TODO: Add a way to store DataStorage/{self.username}/Accounts/{self.category}/{self.account}/Password.txt (Contains encrypted password in file)
+            #TODO: Add a way to store DataStorage/{self.username}/Accounts/{self.category}/{self.account}/Password.txt Contains plain text password :)
             #TODO: Add a way to store DataStorage/{self.username}/Accounts/{self.category}/{self.account}/Hint.txt  (Contains Password hint in file)
             
             return True

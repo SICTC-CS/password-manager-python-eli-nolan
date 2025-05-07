@@ -67,14 +67,18 @@ class Registration():
     def store(self):
         path = f"Modules/DataStorage"
         if self.LoggedIn:
+            accountPath = f"{path}/{self.userName}/accounts/{self.category}/{self.account}"
             action=int(input("Please type 1 to delete, 2 to create account: "))
             if action==1:
-                os.removedirs(f"{path}/{self.userName}/accounts/{self.category}/{self.account}")
+                with open(f"{accountPath}/Password.txt", "r") as f:
+                    accPass=f.read().strip()
+                if self.password==accPass:
+                    os.removedirs(accountPath)
             elif action==2:
             #TODO: Add a way to store DataStorage/{self.username}/Accounts/{self.category}/{self.account}/Password.txt Contains plain text password :)
             #TODO: Add a way to store DataStorage/{self.username}/Accounts/{self.category}/{self.account}/Hint.txt  (Contains Password hint in file)
-                os.makedirs(f"{path}/{self.userName}/accounts/{self.category}/{self.account}",exist_ok=True) #Create the path down to /user 
-                accountPath = f"{path}/{self.userName}/accounts/{self.category}/{self.account}" 
+                os.makedirs(accountPath,exist_ok=True) #Create the path down to /user 
+                 
                 
                 with open (f"{accountPath}/Password.txt", "w+") as f: #make password.txt
                     f.write(self.password)

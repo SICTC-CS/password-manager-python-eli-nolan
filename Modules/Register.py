@@ -2,6 +2,7 @@ import Modules.CheckPassReq
 import Modules.GeneratePass
 import hashlib
 import os
+from shutil import rmtree 
 
 class Registration():
     def __init__(self,LoggedIn):
@@ -73,7 +74,7 @@ class Registration():
                 with open(f"{accountPath}/Password.txt", "r") as f:
                     accPass=f.read().strip()
                 if self.password==accPass:
-                    os.removedirs(accountPath)
+                    rmtree(accountPath)
             elif action==2:
             #TODO: Add a way to store DataStorage/{self.username}/Accounts/{self.category}/{self.account}/Password.txt Contains plain text password :)
             #TODO: Add a way to store DataStorage/{self.username}/Accounts/{self.category}/{self.account}/Hint.txt  (Contains Password hint in file)

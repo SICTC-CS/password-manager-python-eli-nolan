@@ -64,16 +64,6 @@ class Registration():
     def encrypt(self,password):
         print(hashlib.sha256(password.encode('utf-8')).hexdigest()) #DEBUG
         return hashlib.sha256(password.encode('utf-8')).hexdigest() #This encrypts the password as a byte and sets it to 32 in length from what i understand 
-    
-    def encode(self,password):
-        key = hashlib.sha256(input("Enter your master password: ").encode('utf-8')).hexdigest()
-        for i in range(len(password)):
-            encrypted_char = chr(ord(password[i]) ^ key[i % len(key)]) #This i dont fully understand, it uses Xor to flip bits is all i know
-            encrypted += encrypted_char
-        return encrypted
-
-    def decode(self,encrypted, master_password):
-        return self.encode(encrypted, master_password)  # XOR is reversible
 
     def store(self):
         path = f"Modules/DataStorage"

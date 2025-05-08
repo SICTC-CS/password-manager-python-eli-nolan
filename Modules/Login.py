@@ -27,7 +27,7 @@ class Run:
         password = self.Check(input("Enter your password: "),userName)
         while not password:
             failedAttempts += 1
-            if failedAttempts <=3: 
+            if failedAttempts <3: 
                 print(f"Incorrect password {3-failedAttempts} attempts left...")
                 print(f"Hint: {self.checkHint(userName)}")
                 password = self.Check(input("Enter your password: "),userName)

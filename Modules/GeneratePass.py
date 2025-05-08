@@ -3,7 +3,7 @@ import random as rand
 class Generate:
     def __init__(self):
         print("Generating...")
-    def Gen(self):
+    def Gen(self): #Generates a password
         passw=[]
         cap=False
         spec=False

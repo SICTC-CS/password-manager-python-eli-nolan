@@ -7,7 +7,7 @@ class Run:
     def __init__(self):
         print("Running LOGIN")
          
-    def Login(self):    
+    def Login(self):    #Used for logging the user in
         firstTime = input("Are you a first time user? (y/n): ")
         if (firstTime in ["y","Y","Yes","yes"]): #Determine if the user said yes
             self.firstTime = True

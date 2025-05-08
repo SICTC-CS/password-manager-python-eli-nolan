@@ -1,6 +1,6 @@
 import string
 
-class Check():
+class Check(): # Checks the password requirements
     def __init__(self):
         self.allowedSpecialChars = string.punctuation
         self.allowedChars = string.ascii_letters + string.digits + string.punctuation

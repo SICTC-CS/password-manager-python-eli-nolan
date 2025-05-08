@@ -26,7 +26,7 @@ class Registration():
         else:
             if self.hint != None:
                 self.store()
-    def makePassword(self,InitialPassword,LoggedIn):
+    def makePassword(self,InitialPassword,LoggedIn): # Verifys and encrypts the password allowing the user to make a password
         if InitialPassword.lower() != "n":
             password = InitialPassword
             #Verification of password and allowing reinput
@@ -37,7 +37,7 @@ class Registration():
                 else:
                     password = input("Enter a new password: ")
                 
-            #Password encryption
+            #Password encryption 
             if self.verify(password)[0]:
                 if not LoggedIn:
                     self.password = self.encrypt(password)
@@ -58,14 +58,14 @@ class Registration():
 
             self.hint = "Randomly generated password..."
             
-    def verify(password):
+    def verify(password): #Checks password requirements
         requirement = Modules.CheckPassReq.Check()
         return requirement.isValid(password)
     
-    def encrypt(self,password):
+    def encrypt(self,password): #Encrypts password
         return hashlib.sha256(password.encode('utf-8')).hexdigest() #This encrypts the password using sha 256
 
-    def store(self):
+    def store(self): #Stores all data
         path = f"Modules/DataStorage"
         if self.LoggedIn:
             accountPath = f"{path}/{self.userName}/accounts/{self.category}/{self.account}"
@@ -77,7 +77,6 @@ class Registration():
                     rmtree(accountPath)
             elif action==2:
                 os.makedirs(accountPath,exist_ok=True) #Create the path down to /user 
-                 
                 
                 with open (f"{accountPath}/Password.txt", "w+") as f: #make password.txt
                     f.write(self.password)

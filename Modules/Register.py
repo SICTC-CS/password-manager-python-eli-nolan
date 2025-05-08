@@ -58,7 +58,7 @@ class Registration():
 
             self.hint = "Randomly generated password..."
             
-    def verify(self,password):
+    def verify(password):
         requirement = Modules.CheckPassReq.Check()
         return requirement.isValid(password)
     

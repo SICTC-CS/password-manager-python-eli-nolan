@@ -52,7 +52,23 @@ or exit (0)
             case 1: #Add or delete account
                 register=Register.Registration(True)
             case 2: # Modify account
-                print("Modifying account...")
+                folders=[]
+                Username = input("\nEnter your master username: ")
+                path = f"Modules/DataStorage/{Username}/Accounts"
+                if login.Check(input("\nEnter your master password: "),Username):
+                    for name in os.listdir(path): #Used the os docs to find some things here, i knew about the library
+                        if os.path.isdir(os.path.join(path, name)):
+                            folders.append(name)
+                    print(f"\nCategories\n\t{folders}")
+                    catagory=input("What catagory is the account in?")
+                    Account=input("What is the account name?")
+                    with open(f"{path}/{catagory}/{Account}/Password.txt", "r+") as f:
+                        f.truncate(0)
+                        nPass=input("Enter New Password: ")
+                        Register.Registration.verify(nPass)
+                        f.write(nPass)
+                else:
+                    print("\nIncorrect password...")
             case 3: #List categories
                 folders = []
                 Username = input("\nEnter your master username: ")

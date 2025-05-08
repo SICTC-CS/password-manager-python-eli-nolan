@@ -14,8 +14,8 @@ class Registration():
             self.category = input("Enter the category you want to put this in: ")
         #Get password
         print("\nPassword must contain:\n\tAtleast 1 special character\n\tAtleast 1 number\n\tAtleast 8 characters\n")
-        self.password = input("Enter a master password Or enter 'n' to generate a master password: ")
-        self.makePassword(self.password)
+        self.password = input("Enter a password Or enter 'n' to generate a master password: ")
+        self.makePassword(self.password,LoggedIn)
         # print(f"Initial password: {self.password}")#for DEBUG
         #Get name
         if not LoggedIn:
@@ -26,24 +26,24 @@ class Registration():
         else:
             if self.hint != None:
                 self.store()
-    def makePassword(self,InitialPassword):
+    def makePassword(self,InitialPassword,LoggedIn):
         if InitialPassword.lower() != "n":
             password = InitialPassword
             #Verification of password and allowing reinput
             while not self.verify(password)[0]:
                 print(self.verify(password)[1])
-                if not self.LoggedIn:
+                if not LoggedIn:
                     password = input("Enter a new Master password: ")
                 else:
                     password = input("Enter a new password: ")
                 
             #Password encryption
             if self.verify(password)[0]:
-                if not self.LoggedIn:
+                if not LoggedIn:
                     self.password = self.encrypt(password)
                 # print(f"Encrypted password: {self.password}") #for DEBUG
             #Create hint
-            if self.LoggedIn == False:
+            if LoggedIn == False:
                 self.hint = input("Enter a hint for if you forget your master password: ")
                 print(f"Hint: '{self.hint}'")
             else:
@@ -51,7 +51,8 @@ class Registration():
         else:
             Generator = Modules.GeneratePass.Generate()
             password = Generator.Gen()
-            self.password = self.encrypt(password)
+            if not LoggedIn:
+                self.password = self.encrypt(password)
             print(f"Generated master password: {password}")
             # print(f"DEBUG Encrypted password: {self.password}") #for DEBUG
 
@@ -62,7 +63,6 @@ class Registration():
         return requirement.isValid(password)
     
     def encrypt(self,password):
-        print(hashlib.sha256(password.encode('utf-8')).hexdigest()) #DEBUG
         return hashlib.sha256(password.encode('utf-8')).hexdigest() #This encrypts the password using sha 256
 
     def store(self):
@@ -76,8 +76,6 @@ class Registration():
                 if self.password==accPass:
                     rmtree(accountPath)
             elif action==2:
-            #TODO: Add a way to store DataStorage/{self.username}/Accounts/{self.category}/{self.account}/Password.txt Contains plain text password :)
-            #TODO: Add a way to store DataStorage/{self.username}/Accounts/{self.category}/{self.account}/Hint.txt  (Contains Password hint in file)
                 os.makedirs(accountPath,exist_ok=True) #Create the path down to /user 
                  
                 

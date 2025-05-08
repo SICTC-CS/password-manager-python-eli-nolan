@@ -25,8 +25,10 @@ create a class to check this
 '''
 import Modules.Login as Login
 import Modules.Register as Register
-login=Login.Run()
+import os
 
+login=Login.Run()
+exit = False
 print("User: Test")
 print("Password: Password123!@")
 #Login should output (True or False)
@@ -34,15 +36,58 @@ print("Password: Password123!@")
 
 #Login[1] is the account username
 if login.Login()[0]:
-    match int(input("Would you like to add(1),delete(1),or modify(3) an account? or exit (0)")):
-        case 0:
-            exit()
-        case 1:
-            register=Register.Registration(True)
-        case 2:
-            print("Modifying account...")
-            
-        #TODO: Add a way to add/delete accounts and categories and modify account info, 
-        #if modifying password reuse register password make function :)
+    while not exit:
+        match int(input('''
+Would you like to...
+add an account (1)
+delete an account (1)
+modify an account (2) 
+list Categories (3)
+list accounts in a category (4)
+show account password (5)
+or exit (0)
+    ''')):
+            case 0:
+                exit()
+            case 1: #Add or delete account
+                register=Register.Registration(True)
+            case 2: # Modify account
+                print("Modifying account...")
+            case 3: #List categories
+                folders = []
+                Username = input("\nEnter your master username: ")
+                path = f"Modules/DataStorage/{Username}/Accounts"
+                if login.Check(input("\nEnter your master password: "),Username):
+                    for name in os.listdir(path): #Used the os docs to find some things here, i knew about the library
+                        if os.path.isdir(os.path.join(path, name)):
+                            folders.append(name)
+                    print(f"\nCategories\n\t{folders}")
+                else:
+                    print("\nIncorrect password...")
+            case 4: #List accounts in a category
+                folders = []
+                Username = input("\nEnter your master username: ")
+                Category = input("\nEnter the Category: ")
+                path = f"Modules/DataStorage/{Username}/Accounts/{Category}"
+                if login.Check(input("\nEnter your master password: "),Username):
+                    for name in os.listdir(path): #Used the os docs to find some things here, i knew about the library
+                        if os.path.isdir(os.path.join(path, name)):
+                            folders.append(name)
+                    print(f"\nAccounts\n\t{folders}")
+                else:
+                    print("\nIncorrect password...")
+            case 5: #Show account details
+                Username = input("\nEnter your master username: ")
+                Category = input("\nEnter the Category: ")
+                Account = input("\nEnter the account name: ")
+                path = f"Modules/DataStorage/{Username}/Accounts/{Category}/{Account}"
+                if login.Check(input("\nEnter your master password: "),Username):
+                    with open(f"{path}/Password.txt","r") as f:
+                        Password = f.readline().strip()
+                    print(f"\n{Account}\n\tPassword: {Password}")
+                else:
+                    print("\nIncorrect password...")
+            #TODO: Add a way to add/delete accounts and categories and modify account info, 
+            #if modifying password reuse register password make function :)
 else:
-    exit() 
+    exit = True

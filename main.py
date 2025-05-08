@@ -28,6 +28,8 @@ import Modules.Register as Register
 import os
 
 login=Login.Run()
+global Username
+Loggedin,Username = login.Login()
 exit = False
 #Login should output (True or False)
 #If
@@ -44,9 +46,10 @@ def listCategories(Username,Master):
                     print("\nIncorrect password...")
                     return
 
-def listAccounts(Username,Master,Category=input("\nEnter the Category: ")):
+def listAccounts(Username,Master,Category):
+                if Category == None:
+                    Category=input("\nEnter the Category: ")
                 folders = []
-                Username = input("\nEnter your master username: ")
                 path = f"Modules/DataStorage/{Username}/Accounts/{Category}"
                 if login.Check(Master,Username):
                     for name in os.listdir(path): #Used the os docs to find some things here, i knew about the library
@@ -56,8 +59,14 @@ def listAccounts(Username,Master,Category=input("\nEnter the Category: ")):
                 else:
                     print("\nIncorrect password...")
                     return
+def askForMaster():
+    Master = input("\nEnter your master password: ")
+    if not(Login.Run.Check(Login.Run(),password=Master,username=Username)):
+        return (False,None)
+    return (True,Master)
 #Login[1] is the account username
-if login.Login()[0]:
+
+if Loggedin:
     while not exit:
         match int(input('''
 Would you like to...
@@ -74,52 +83,42 @@ or exit (0)
             case 1: #Add or delete account
                 register=Register.Registration(True)
             case 2: # Modify account
-                Username = input("\nEnter your master username: ")
-                Master = input("\nEnter your master password: ")
-                if not(Login.Run.Check(password=Master,user=Username)):
-                    break
-                listCategories(Username,Master)
-                Category = input("\nWhat catagory is the account in: ")
-                listAccounts(Username,Master,Category=Category)
-                Account = input("\nEnter the account name: ")
-                with open(f"{path}/{Category}/{Account}/Password.txt", "r+") as f:
-                    f.truncate(0)
-                    nPass=input("Enter New Password: ")
-                    Register.Registration.verify(nPass)
-                    f.write(nPass)
+                valid,Master = askForMaster()
+                if valid:
+                    listCategories(Username,Master)
+                    Category = input("\nWhat catagory is the account in: ")
+                    listAccounts(Username,Master,Category=Category)
+                    Account = input("\nEnter the account name: ")
+                    with open(f"Modules/DataStorage/{Username}/Accounts/{Category}/{Account}/Password.txt", "r+") as f:
+                        f.truncate(0)
+                        nPass=input("Enter New Password: ")
+                        Register.Registration.verify(nPass)
+                        f.write(nPass)
             case 3: #List categories
-                Username = input("\nEnter your master username: ")
-                Master = input("\nEnter your master password: ")
-                if not(Login.Run.Check(password=Master,user=Username)):
-                    break
-                listCategories(Username,Master)
-                Master = None
+                valid,Master = askForMaster()
+                if valid:
+                    listCategories(Username,Master)
+                    Master = None
             case 4: #List accounts in a category
-                Username = input("\nEnter your master username: ")
-                Master = input("\nEnter your master password: ")
-                if not(Login.Run.Check(password=Master,user=Username)):
-                    break
-                listCategories(Username,Master)
-                listAccounts(Username,Master)
-                Master = None
+                valid,Master = askForMaster()
+                if valid:
+                    listCategories(Username,Master)
+                    listAccounts(Username,Master,None)
+                    Master = None
             case 5: #Show account details
-                Username = input("\nEnter your master username: ")
-                Master = input("\nEnter your master password: ")
-                if not(Login.Run.Check(password=Master,user=Username)):
-                    break
-                listCategories(Username,Master)
-                Category = input("\nEnter the Category: ")
-                listAccounts(Username,Master,Category=Category)
-                Account = input("\nEnter the account name: ")
-                path = f"Modules/DataStorage/{Username}/Accounts/{Category}/{Account}"
-                if login.Check(Master,Username):
-                    with open(f"{path}/Password.txt","r") as f:
-                        Password = f.readline().strip()
-                    print(f"\n{Account}\n\tPassword: {Password}")
-                else:
-                    print("\nIncorrect password...")
-                Master = None
-            #TODO: Add a way to add/delete accounts and categories and modify account info, 
-            #if modifying password reuse register password make function :)
+                valid,Master = askForMaster()
+                if valid:
+                    listCategories(Username,Master)
+                    Category = input("\nEnter the Category: ")
+                    listAccounts(Username,Master,Category=Category)
+                    Account = input("\nEnter the account name: ")
+                    path = f"Modules/DataStorage/{Username}/Accounts/{Category}/{Account}"
+                    if login.Check(Master,Username):
+                        with open(f"{path}/Password.txt","r") as f:
+                            Password = f.readline().strip()
+                        print(f"\n{Account}\n\tPassword: {Password}")
+                    else:
+                        print("\nIncorrect password...")
+                    Master = None
 else:
     exit = True

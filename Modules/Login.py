@@ -35,8 +35,8 @@ class Run:
                 return False,userName
         return True,userName
         
-    def Check(self,password,user): #For checking if the password matches the stored password
-        actual = self.getPass(user)
+    def Check(self,password,username): #For checking if the password matches the stored password
+        actual = self.getPass(username)
         if hashlib.sha256(password.encode('utf-8')).hexdigest() == actual: #Check hash with stored hash seems to be the typical way to do this
             return True
         else:

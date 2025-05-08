@@ -30,7 +30,7 @@ class Registration():
         if InitialPassword.lower() != "n":
             password = InitialPassword
             #Verification of password and allowing reinput
-            while not self.verify(password)[0]:
+            while not self.verify(password,self=self)[0]:
                 print(self.verify(password)[1])
                 if not LoggedIn:
                     password = input("Enter a new Master password: ")

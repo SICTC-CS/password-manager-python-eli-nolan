@@ -79,7 +79,8 @@ show account password (5)
 or exit (0)
     ''')):
             case 0:
-                exit()
+                exit = True
+                break
             case 1: #Add or delete account
                 register=Register.Registration(True)
             case 2: # Modify account
@@ -92,7 +93,7 @@ or exit (0)
                     with open(f"Modules/DataStorage/{Username}/Accounts/{Category}/{Account}/Password.txt", "r+") as f:
                         f.truncate(0)
                         nPass=input("Enter New Password: ")
-                        Register.Registration.verify(nPass)
+                        register = Register.Registration.verify(Register,nPass)
                         f.write(nPass)
             case 3: #List categories
                 valid,Master = askForMaster()

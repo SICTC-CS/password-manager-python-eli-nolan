@@ -41,6 +41,8 @@ class Registration():
             if self.verify(password)[0]:
                 if not LoggedIn:
                     self.password = self.encrypt(password)
+                else:
+                    self.password = password
                 # print(f"Encrypted password: {self.password}") #for DEBUG
             #Create hint
             if LoggedIn == False:
@@ -53,6 +55,8 @@ class Registration():
             password = Generator.Gen()
             if not LoggedIn:
                 self.password = self.encrypt(password)
+            else:
+                self.password = password
             print(f"Generated master password: {password}")
             # print(f"DEBUG Encrypted password: {self.password}") #for DEBUG
 

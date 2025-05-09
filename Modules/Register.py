@@ -19,8 +19,8 @@ class Registration():
         # print(f"Initial password: {self.password}")#for DEBUG
         #Get name
         if not LoggedIn:
-            self.firstName = input("Enter your first name: ").title
-            self.lastName = input("Enter your last name: ").title
+            self.firstName = input("Enter your first name: ")
+            self.lastName = input("Enter your last name: ")
             if self.lastName != None:
                 self.store()
         else:
